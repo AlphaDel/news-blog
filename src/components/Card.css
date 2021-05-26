@@ -1,0 +1,40 @@
+/* For desktop screen*/
+@media only screen and (min-width: 641px) {
+
+  .col {
+    flex: 0 0 50%;
+    /* height: 1; */
+    background: green;
+  }
+
+  .wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .box {
+    flex: 0 0 50%;
+    height: 25vw;
+  }
+
+  .red {
+    background: red;
+  }
+  
+  .pink {
+    background: pink;
+  }
+  
+  .orange {
+    background: orange;
+  }
+  
+  .grey {
+    background: grey;
+  }
+}
+
+/* For mobile screen*/
+@media only screen and (max-width: 640px) {
+
+}

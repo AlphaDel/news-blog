@@ -1,0 +1,30 @@
+/* For desktop screen*/
+* {
+  box-sizing: border-box;
+}
+
+@media only screen and (min-width: 769px) {
+  .container {
+    width: 100vw;
+    display: flex;
+  }
+  
+  .col {
+    flex: 0 0 50vw;
+    height: 50vw;
+    background-color: pink;
+  }
+  .wrap {
+    display: flex;
+    flex-wrap:wrap
+  }
+  
+  
+}
+
+/* For mobile screen*/
+@media only screen and (max-width: 768px) {
+  body {
+    background-color: red;
+  }
+}
