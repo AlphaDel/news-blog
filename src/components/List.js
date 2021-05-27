@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Card from '../components/Card'
+import Logo from '../assets/Logo_White.png'
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const List = ({ items = [] }) => {
               <Link to={`/article/${item.id}`}>
                 <Card
                   title={item.webTitle}
-                  image={item.fields?.thumbnail || process.env.PUBLIC_URL + 'assets/Logo_White.png'}
+                  image={item.fields?.thumbnail || Logo}
                 />
               </Link>
             </CardWrapper>

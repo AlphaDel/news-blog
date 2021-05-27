@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import ArticleListPage from './ArticleListPage'
 import SearchResult from './SearchResult'
 import { SearchContext } from '../context/search-context'
@@ -19,6 +20,11 @@ const Container = styled.div`
   align-items: center;
 `
 
+const LinkWrapper = styled(Link)`
+  text-decoration: none;
+  margin-right: 20px;
+`
+
 const ArticlesMain = () => {
   const { query } = useContext(SearchContext)
   const { orderBy } = useContext(OrderContext)
@@ -31,7 +37,9 @@ const ArticlesMain = () => {
           <SearchResult query={query} orderBy={orderBy}/>
       }
       <Container>
-        <BookmarkButton />
+        <LinkWrapper to={'/bookmarks'}>
+          <BookmarkButton>VIEW BOOKMARK</BookmarkButton>
+        </LinkWrapper>
         <OrderBy />
       </Container>
     </ContainerWrapper>

@@ -1,12 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import bookmarkIcon from '../assets/bookmarkon-icon@2x.svg'
-
-const LinkWrapper = styled(Link)`
-  text-decoration: none;
-  margin-right: 20px;
-`
 
 const Button = styled.button`
   display: flex;
@@ -20,12 +14,13 @@ const Button = styled.button`
   outline: 0;
 `
 
-const BookmarkButton = () => {
+const BookmarkButton = ({ children, onClickHandler = fn => fn }) => {
   
   return (
-    <LinkWrapper to={'/bookmarks'}>
-      <Button><img src={bookmarkIcon} alt="bookmark-icon" style={{ marginRight: '5px' }} />View Bookmark</Button>
-    </LinkWrapper>
+    <Button onClick={(e) => onClickHandler(e)}>
+      <img src={bookmarkIcon} alt="bookmark-icon" style={{ marginRight: '5px' }} />
+      {children}
+    </Button>
   )
 }
 

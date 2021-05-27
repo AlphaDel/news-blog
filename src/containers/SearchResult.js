@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import styled from 'styled-components'
-import useDebounce from '../context/use-debounce'
-import { getArticles as requestGetArticles } from '../services'
+import useFetch from '../hooks/use-fetch'
 import List from '../components/List'
 import Loading from '../components/Loading'
 
@@ -22,40 +21,44 @@ const Title = styled.div`
   margin-bottom: 20px;
 `
 
-const SearchResult = ({ query, orderBy }) => {
-  const [articles, setArticles] = useState([])
-  const [isLoaded, setIsLoaded] = useState(false)
+const Warning = styled.div`
+  margin-top: 10%;
+`
 
-  const debouncedSearch = useDebounce(query, 500)
+const SearchResult = ({ query, orderBy }) => {
+  const [page, setPage] = useState(1)
+  const { list, loading, hasError } = useFetch({ query, page, orderBy })
+  const loader = useRef(null)
+
+  const observerHandler = useCallback((entries) => {
+    const [entry] = entries
+    if (entry.isIntersecting) {
+      setPage((prev) => prev + 1)
+    }
+  }, [])
+
   useEffect(() => {
-    const fetchSearchArticles = async () => {
-      try {
-        const { data } = await requestGetArticles(query, {
-          orderBy,
-          section: 'news',
-          pageSize: 15,
-          showFields: 'thumbnail',
-        })
-        setArticles(data.response.results)
-        setIsLoaded(true)
-      } catch (error) {
-        console.error(error)
-      }
+    const options = {
+      root: null,
+      rootMargin: '20px',
+      threshold: 0
     }
-    fetchSearchArticles()
+    const observer = new IntersectionObserver(observerHandler, options)
+    if (loader.current) observer.observe(loader.current)
     return () => {
-      setIsLoaded(false)
+      if (loader.current) observer.unobserve(loader.current)
     }
-  }, [debouncedSearch, orderBy])
+  }, [observerHandler])
+
   return (
     <div>
       <Title>Search result</Title>
       <Container>
-        {
-          isLoaded ?
-            <List items={articles} /> :
-            <Loading />
-        }
+        <List items={list} />
+        {!loading && list.length <= 0 && !hasError && <Warning>Data not found.</Warning>}
+        {loading && !hasError && <Loading />}
+        {hasError && <Warning>Service is unavailable please try again.</Warning>}
+        <div ref={loader} />
       </Container>
     </div>
   )

@@ -8,8 +8,6 @@ import Loading from '../components/Loading'
 const ContainerWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  max-width: 1200px;
 `
 
 const ArticleContent = styled.div`
@@ -37,11 +35,13 @@ const ContentWrapper = styled.div`
 
 const ArticleDetailPage = (props) => {
   const [articleDetail, setArticleDetail] = useState({})
-  const [isMounted, setIsMounted] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
   const { sectionId, publicYear, publicMonth, publicDay, slug } = props.match?.params || {}
   const id = `${sectionId}/${publicYear}/${publicMonth}/${publicDay}/${slug}`
+  
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
+    
     const getArticleDetail = async () => {
       try {
         const { data } = await requestGetArticleDetail(id, {
@@ -49,7 +49,7 @@ const ArticleDetailPage = (props) => {
           showElements: 'all'
         })
         setArticleDetail(data.response.content)
-        setIsMounted(true)
+        setIsLoaded(true)
       } catch (error) {
         console.error(error)
       }
@@ -58,41 +58,39 @@ const ArticleDetailPage = (props) => {
     getArticleDetail()
     
     return () => {
-      setIsMounted(false)
+      setIsLoaded(false)
     }
   }, [id])
 
   return (
-    <div>
-      <ContainerWrapper>
-        {
-          isMounted ?
-          (
-            <>
-              <div>
-                <Bookmark articleDetail={articleDetail} />
-              </div>
-              <ContentWrapper>
-                <ArticleContent>
-                  <div>{dayjs(articleDetail.webPublicationDate).format('ddd D MMM YYYY HH:mm').toUpperCase()}</div>
-                  <h1>{articleDetail.webTitle}</h1>
-                  <h2>{articleDetail.fields?.headline}</h2>
-                  <hr/>
-                  <div dangerouslySetInnerHTML={{ __html: articleDetail.fields?.body }} />
-                </ArticleContent>
-                <ArticleImage>
-                  <div dangerouslySetInnerHTML={{ __html: articleDetail.fields?.main }} />
-                </ArticleImage>
-              </ContentWrapper>
-            </>
-          ) :
-          <Loading />
-          
+    <ContainerWrapper>
+      {
+        isLoaded ?
+        (
+          <>
+            <div>
+              <Bookmark articleDetail={articleDetail} />
+            </div>
+            <ContentWrapper>
+              <ArticleContent>
+                <div>{dayjs(articleDetail.webPublicationDate).format('ddd D MMM YYYY HH:mm').toUpperCase()}</div>
+                <h1>{articleDetail.webTitle}</h1>
+                <h2>{articleDetail.fields?.headline}</h2>
+                <hr/>
+                <div dangerouslySetInnerHTML={{ __html: articleDetail.fields?.body }} />
+              </ArticleContent>
+              <ArticleImage>
+                <div dangerouslySetInnerHTML={{ __html: articleDetail.fields?.main }} />
+              </ArticleImage>
+            </ContentWrapper>
+          </>
+        ) :
+        <Loading />    
     }
-      </ContainerWrapper>
-          
+    {
       
-    </div>
+    }
+    </ContainerWrapper>
   )
 }
 

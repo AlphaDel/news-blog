@@ -13,10 +13,6 @@ const CardWrapper = styled.div`
   }
 `
 
-const CardContainer = styled.div`
-
-`
-
 const CardContent = styled.div`
   position: relative;
   width: 100%;
@@ -42,7 +38,6 @@ const Label = styled.div`
   color: #fff;
   margin: 5px;
 `
-
 
 const Card = ({ title, image }) => {
   return (

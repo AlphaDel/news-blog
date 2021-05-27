@@ -1,23 +1,11 @@
 import axios from 'axios'
 
 const baseURL = 'https://content.guardianapis.com'
+const apiKey = process.env.REACT_APP_GUARDIAN_API_KEY
 const axiosInstance = axios.create({
   baseURL,
   timeout: 10000,
 })
-
-const apiKey = process.env.REACT_APP_GUARDIAN_API_KEY
-
-//https://content.guardianapis.com/search?show-fields=thumbnail%2CbodyText&section=news&q=news&api-key=test
-
-export const searchArticles = (query = '') => axiosInstance.get(`/search?${query ? 'q=' + query + '&' : ''}page-size=8&api-key=test`)
-
-// export const getArticles = ({ query = '', section, pageSize = 10 }) => {
-//   const options = {
-//     section: `section=${section}`
-//   }
-//   return axiosInstance.get(`/search?${query ? 'q=' + query + '&' : ''}section=${section}&page-size=${pageSize}&api-key=test`)
-// }
 
 export const getArticles = (query = '', filters = {}) => {
   let filter = ''
