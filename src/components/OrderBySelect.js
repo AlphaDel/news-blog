@@ -2,15 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Select = styled.select`
-  width: 100%;
   height: 35px;
   background: white;
   color: #000;
   padding-left: 5px;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   border-bottom: 1px solid gray;
-  margin-left: 10px;
   outline: none;
   width: 175px;
 
@@ -21,6 +19,12 @@ const Select = styled.select`
     white-space: pre;
     min-height: 20px;
     padding: 0px 2px 1px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    font-size: 12px;
+    width: 115px;
+    height: 28px;
   }
 `
 

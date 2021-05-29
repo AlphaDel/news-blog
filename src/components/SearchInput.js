@@ -11,7 +11,7 @@ const SearchInput = ({ onchangeHandler, value }) => {
         id="search-right"
         type="search"
         placeholder="Search all news"
-        onChange={(e) => onchangeHandler(e.target.value.trim())}
+        onChange={(e) => onchangeHandler(e.target.value)}
         value={value}
       />
       <label className="button search-button" htmlFor="search-right"><img src={searchIcon} alt="search-icon"></img></label>

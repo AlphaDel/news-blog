@@ -11,11 +11,8 @@ const Router = () => {
       <Header />
         <Content>
           <Switch>
-            <Route path="/search">
-              <div>search</div>
-            </Route>
             <Route path="/bookmarks" exact={true} component={BookmarkListPage} />
-            <Route path="/article/:sectionId/:publicYear/:publicMonth/:publicDay/:slug" exact={true} component={ArticleDetailPage} />
+            <Route path="/article/:sectionId" component={ArticleDetailPage} />
             <Route path="/" component={ArticleMain} />
           </Switch>
         </Content>

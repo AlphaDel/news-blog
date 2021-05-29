@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import './ArticleListPage.css'
 import { getArticles as requestGetArticles } from '../services'
 import useDebounce from '../hooks/use-debounce'
 import TopStories from '../components/TopStories'
@@ -26,7 +25,7 @@ const ArticleListPage = ({ query, orderBy }) => {
           orderBy,
           section: 'news',
           pageSize: 8,
-          showFields: 'thumbnail',
+          showFields: 'thumbnail,trailText',
         })
         setArticles(articleTopStories.response.results)
         const { data: articleByMultipleSections } = await requestGetArticles(query, {

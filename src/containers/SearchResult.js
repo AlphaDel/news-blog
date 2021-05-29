@@ -3,22 +3,19 @@ import styled from 'styled-components'
 import useFetch from '../hooks/use-fetch'
 import List from '../components/List'
 import Loading from '../components/Loading'
+import HeaderGroup from '../components/HeaderGroup'
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 
   @media only screen and (max-width: 768px) {
-    flex-direction: column;
+    margin-top: 5px;
   }
-`
-
-const Title = styled.div`
-  font-weight: bold;
-  font-size: 26px;
-  margin-bottom: 20px;
 `
 
 const Warning = styled.div`
@@ -40,8 +37,8 @@ const SearchResult = ({ query, orderBy }) => {
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '20px',
-      threshold: 0
+      rootMargin: '0px',
+      threshold: 1.0
     }
     const observer = new IntersectionObserver(observerHandler, options)
     if (loader.current) observer.observe(loader.current)
@@ -52,7 +49,7 @@ const SearchResult = ({ query, orderBy }) => {
 
   return (
     <div>
-      <Title>Search result</Title>
+      <HeaderGroup>Search result</HeaderGroup>
       <Container>
         <List items={list} />
         {!loading && list.length <= 0 && !hasError && <Warning>Data not found.</Warning>}

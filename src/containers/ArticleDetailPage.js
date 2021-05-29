@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
+import timezone from 'dayjs/plugin/timezone'
 import { getArticleDetail as requestGetArticleDetail } from '../services'
 import Bookmark from './Bookmark'
 import Loading from '../components/Loading'
+dayjs.extend(timezone)
+dayjs.tz.setDefault('Asia/Bangkok')
+dayjs.extend(advancedFormat)
+
 
 const ContainerWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 0 10px;
 `
 
 const ArticleContent = styled.div`
@@ -20,12 +27,20 @@ const ArticleContent = styled.div`
 `
 
 const ArticleImage = styled.div`
-  margin-top: 60px;
+  margin-top: calc(16vh);
   img {
     max-width: 600px;
     width: 100%;
     height: auto;
   }
+
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
+`
+
+const BookmarkWrapper = styled.div`
+  max-width: 150px;
 `
 
 const ContentWrapper = styled.div`
@@ -33,11 +48,46 @@ const ContentWrapper = styled.div`
   flex-direction: row;
 `
 
+const ArticleTitleWrapper = styled.h1`
+  font-size: 30px;
+  
+  @media only screen and (max-width: 768px) {
+    font-size: 14px;
+  }
+`
+
+const ArticleHeadlineWrapper = styled.h2`
+  font-size: 20px;
+    
+  @media only screen and (max-width: 768px) {
+    font-size: 12px;
+  }
+`
+
+const WebPublicDateWrapper = styled.div`
+  margin-top: 10px;
+  font-size: 12px;
+  
+  @media only screen and (max-width: 768px) {
+    font-size: 10px;
+  }
+`
+
+const ArticleContentWrapper = styled.div`
+  &.p {
+    font-size: 18px
+  }
+
+  @media only screen and (max-width: 768px) {
+    font-size: 12px;
+  }
+`
+
 const ArticleDetailPage = (props) => {
   const [articleDetail, setArticleDetail] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
-  const { sectionId, publicYear, publicMonth, publicDay, slug } = props.match?.params || {}
-  const id = `${sectionId}/${publicYear}/${publicMonth}/${publicDay}/${slug}`
+  const url = props.location?.pathname || []
+  const id = url.split('/').splice(2).join('/')
   
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -68,16 +118,16 @@ const ArticleDetailPage = (props) => {
         isLoaded ?
         (
           <>
-            <div>
+            <BookmarkWrapper>
               <Bookmark articleDetail={articleDetail} />
-            </div>
+            </BookmarkWrapper>
             <ContentWrapper>
               <ArticleContent>
-                <div>{dayjs(articleDetail.webPublicationDate).format('ddd D MMM YYYY HH:mm').toUpperCase()}</div>
-                <h1>{articleDetail.webTitle}</h1>
-                <h2>{articleDetail.fields?.headline}</h2>
+                <WebPublicDateWrapper>{dayjs(new Date()).format('ddd D MMM YYYY HH:mm z').toUpperCase()}</WebPublicDateWrapper>
+                <ArticleTitleWrapper>{articleDetail.webTitle}</ArticleTitleWrapper>
+                <ArticleHeadlineWrapper>{articleDetail.fields?.headline}</ArticleHeadlineWrapper>
                 <hr/>
-                <div dangerouslySetInnerHTML={{ __html: articleDetail.fields?.body }} />
+                <ArticleContentWrapper dangerouslySetInnerHTML={{ __html: articleDetail.fields?.body }} />
               </ArticleContent>
               <ArticleImage>
                 <div dangerouslySetInnerHTML={{ __html: articleDetail.fields?.main }} />

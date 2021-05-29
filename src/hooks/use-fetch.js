@@ -6,11 +6,13 @@ const useFetch = ({ query, page, orderBy }) => {
   const [loading, setLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
   const [tempQuery, _setTempQuery] = useState(query)
+  const [tempOrderBy, setTempOrderBy] = useState(orderBy)
+
   const [list, setList] = useState([])
   const debouncedSearch = useDebounce(query, 500)
   const sendQuery = useCallback(async () => {
     try {
-      if (tempQuery !== debouncedSearch) setList([])
+      if (tempQuery !== debouncedSearch || tempOrderBy !== orderBy) setList([])
 
       setLoading(true)
       const { data } = await requestGetArticles(debouncedSearch, {
@@ -22,6 +24,8 @@ const useFetch = ({ query, page, orderBy }) => {
       })
       setList((prev) => [...new Set([...prev,  ...data.response.results])])
       setLoading(false)
+      setHasError(false)
+      setTempOrderBy(orderBy)
     } catch (error) {
       console.error(error)
       setHasError(true)

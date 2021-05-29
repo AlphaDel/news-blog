@@ -2,8 +2,8 @@ import Category from '../components/Category'
 
 const ArticleCategory = ({ articlesByCategory = [] }) => {
   const categories = articlesByCategory.reduce((r, a) => {
-    r[a.pillarName] = r[a.pillarName] || []
-    r[a.pillarName].push(a)
+    r[a.sectionId] = r[a.sectionId] || []
+    r[a.sectionId].push(a)
     return r
   }, [])
 

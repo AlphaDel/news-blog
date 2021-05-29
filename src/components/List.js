@@ -5,26 +5,26 @@ import Card from '../components/Card'
 import Logo from '../assets/Logo_White.png'
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  align-items: center;
+  grid-gap: 20px;
 
   @media only screen and (max-width: 768px) {
     flex-direction: column;
+    grid-gap: 10px;
   }
 `
 
 const CardWrapper = styled.div`
-  margin: 10px;
   flex: 1 0 25%;
+  height: 250px;
   max-height: 250px;
-  max-width: 340px;
 `
 
-const List = ({ items = [] }) => {
+const List = ({ items = [], style }) => {
   return (
-    <div>
       <Container>
         {
           items.map((item) => (
@@ -33,13 +33,14 @@ const List = ({ items = [] }) => {
                 <Card
                   title={item.webTitle}
                   image={item.fields?.thumbnail || Logo}
+                  isShowDefaultImg={!item.fields?.thumbnail}
+                  style={style}
                 />
               </Link>
             </CardWrapper>
           ))
         }
       </Container>
-    </div>
   )
 }
 
