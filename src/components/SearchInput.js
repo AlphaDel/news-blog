@@ -1,5 +1,5 @@
 import React from 'react'
-import searchIcon from '../assets/search-icon@2x.svg'
+import searchIcon from '../assets/search-icon.svg'
 import './SearchInput.css'
 
 const SearchInput = ({ onchangeHandler, value }) => {

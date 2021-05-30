@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import bookmarkIcon from '../assets/bookmarkon-icon@2x.svg'
+import bookmarkIcon from '../assets/bookmarkon-icon.svg'
 
 const Button = styled.button`
   display: flex;

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import bookmarkRemoveIcon from '../../assets/bookmarkoff-icon@2x.svg'
-import bookmarkAddIcon from '../../assets/bookmarkon-icon@2x.svg'
+import bookmarkRemoveIcon from '../../assets/bookmarkoff-icon.svg'
+import bookmarkAddIcon from '../../assets/bookmarkon-icon.svg'
 
 
 const Modal = styled.div`

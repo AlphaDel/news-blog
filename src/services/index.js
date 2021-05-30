@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { transformFilter } from '../utils'
 
 const baseURL = 'https://content.guardianapis.com'
 const apiKey = process.env.REACT_APP_GUARDIAN_API_KEY
@@ -8,19 +9,11 @@ const axiosInstance = axios.create({
 })
 
 export const getArticles = (query = '', filters = {}) => {
-  let filter = ''
-  Object.entries(filters).forEach((entry) => {
-    const key = entry[0].replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
-    filter = `${filter}&${key}=${entry[1]}`
-  })
-  return axiosInstance.get(`/search?api-key=${apiKey}${query ? '&q=' + query : ''}${filter}`)
+  const filtersQuery = transformFilter(filters)
+  return axiosInstance.get(`/search?api-key=${apiKey}${query ? '&q=' + query : ''}${filtersQuery}`)
 }
 
 export const getArticleDetail = (id = '', filters = {}) => {
-  let filter = ''
-  Object.entries(filters).forEach((entry) => {
-    const key = entry[0].replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
-    filter = `${filter}&${key}=${entry[1]}`
-  })
-  return axiosInstance.get(`/${id}?api-key=${apiKey}${filter}`)
+  const filtersQuery = transformFilter(filters)
+  return axiosInstance.get(`/${id}?api-key=${apiKey}${filtersQuery}`)
 }
