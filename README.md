@@ -12,7 +12,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     ```
     yarn
     ```
-3. Create a new file `.env` following below.
+3. Create a new file `.env` and add application configuration following below. <br>
     `REACT_APP_GUARDIAN_API_KEY={REPLACE_HERE}`
     > Replace `{REPLACE_HERE}` with your Guardian API key or use default `test` in case you don't have one.
 4. Done, you can follow `Available Scripts` section how to lunch web application.
