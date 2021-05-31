@@ -19,6 +19,7 @@ const ArticleListPage = ({ query, orderBy }) => {
   const debouncedSearch = useDebounce(query, 500)
 
   useEffect(() => {
+    let mounted = true
     const fetchDefaultArticles = async () => {
       try {
         const { data: articleTopStories } = await requestGetArticles(query, {
@@ -27,15 +28,18 @@ const ArticleListPage = ({ query, orderBy }) => {
           pageSize: 8,
           showFields: 'thumbnail,trailText',
         })
-        setArticles(articleTopStories.response.results)
+
         const { data: articleByMultipleSections } = await requestGetArticles(query, {
           orderBy,
           section: 'sport|culture|lifeandstyle',
           pageSize: 20,
           showFields: 'thumbnail,trailText',
         })
-        setArticlesByCategory(articleByMultipleSections.response.results)
-        setIsLoaded(true)
+        if (mounted) {
+          setArticles(articleTopStories.response.results)
+          setArticlesByCategory(articleByMultipleSections.response.results)
+          setIsLoaded(true)
+        }
       } catch (error) {
         console.error(error)
       }
@@ -47,6 +51,7 @@ const ArticleListPage = ({ query, orderBy }) => {
 
     return () => {
       setIsLoaded(false)
+      mounted = false
     }
   }, [debouncedSearch, orderBy])
   

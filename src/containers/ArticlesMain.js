@@ -13,7 +13,7 @@ const ContainerWrapper = styled.div`
 const ArticlesMain = () => {
   const { query } = useContext(SearchContext)
   const { orderBy } = useContext(OrderContext)
-  
+
   return (
     <ContainerWrapper>
       {
